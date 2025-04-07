@@ -1,6 +1,6 @@
 ## user details:-
 
-id
+id 
 name
 email
 phone
@@ -12,6 +12,7 @@ confirm password
 
 ## A Demo json body for signUp
 
+```json
 {
   "name": "John Doe",
   "email": "johny.doe@example.com",
@@ -22,3 +23,12 @@ confirm password
   "password": "hashed_password_here"
 }
 
+# For Validation in fields
+
+name ---> Cannot be empty.
+email ---> Checks for valid emial && no duplicate values should be present.
+phone ---> Checks for valid phone number.
+gender --->  ["Male","Female","Others"] *Accept in this format*
+country ---> String.
+state ----> Yet to modify.
+password ----> A strong password check validation.
