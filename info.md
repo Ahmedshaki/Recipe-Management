@@ -32,3 +32,13 @@ gender --->  ["Male","Female","Others"] *Accept in this format*
 country ---> String.
 state ----> Yet to modify.
 password ----> A strong password check validation.
+
+
+```js
+All the API end point:
+http://localhost:3000
+
+User-->
+/signup (POST)
+/login  (POST)
+/logout (POST)

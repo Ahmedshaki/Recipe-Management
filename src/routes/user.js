@@ -70,4 +70,21 @@ userAuth.post('/login',async (req,res)=>{
    }
 })
 
+userAuth.post('/logout',async (req,res)=>{
+    try{
+        res.cookie("token",null,{
+            expires : new Date(Date.now())
+        })
+
+        res.status(200).json({
+            message : `Logout successfully`
+        })
+    }
+    catch(err){
+        res.status(400).json({message : `Something wrong: ${err.message}`})
+    }
+})
+
+
+
 module.exports = userAuth;
