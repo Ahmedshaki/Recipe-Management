@@ -3,13 +3,17 @@ const express = require("express");
 const connectDB = require('./config/database');
 const app = express();
 const port = 3000;
+const cookieparser = require("cookie-parser");
 
 
 app.use(express.json());
+app.use(cookieparser());
 
 const userAuth = require("./routes/user");
+const recipeAuth = require("./routes/recipe");
 
 app.use("/",userAuth);
+app.use("/",recipeAuth);
 
 connectDB().
     then(()=>{
