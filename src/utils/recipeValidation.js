@@ -46,7 +46,7 @@ const recipeValidation = (req) =>{
       ];
     
     if(!cuisine || !validCuisines.includes(cuisine)){
-        throw new Error("Category is required and must be one of: " + validCuisines.join(", "));
+        throw new Error("Cuisine is required and must be one of: " + validCuisines.join(", "));
     }
 
     const validDifficulties = ["Easy", "Medium", "Hard"];
@@ -92,17 +92,6 @@ const recipeValidation = (req) =>{
     if (!Array.isArray(instructions) || instructions.length === 0) {
         throw new Error("At least one instruction step is required.");
     } 
-    else{
-        instructions.forEach((step, index) => {
-            if (
-                !step.instruction ||
-                typeof step.instruction !== "string" ||
-                step.instruction.length < 50
-            ) {
-                throw new Error(`Step #${index + 1} must have a valid instruction.`);
-            }
-        });
-    }
 
     if (!coverImage || !validator.isURL(coverImage)) {
         throw new Error("A valid cover image URL is required.");
@@ -114,7 +103,7 @@ const recipeValidation = (req) =>{
         throw new Error("Category is required and must be one of: " + validTags.join(", "));
     }
 
-    const validTasteTag =  ["Spicy", "Sweet", "Savory", "Tangy", "Bitter"];
+    const validTasteTag =  ["Spicy", "Sweet", "Savory", "Tangy", "Bitter","Rich"];
 
     if(!tasteTag || !validTasteTag.includes(tasteTag)){
         throw new Error("Category is required and must be one of: " + validTasteTag.join(", "));

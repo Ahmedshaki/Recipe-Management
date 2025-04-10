@@ -27,7 +27,6 @@ recipeAuth.post('/registerRecipe', userAuth , async(req,res)=>{
         } = req.body;
 
         const uploadedImageUrl = await uploadImageToCloudinary(coverImage);
-        console.log(uploadedImageUrl);
         const recipeFromUser = new Recipe({
             title,
             description,
@@ -55,5 +54,12 @@ recipeAuth.post('/registerRecipe', userAuth , async(req,res)=>{
         })
     }
 })
+
+recipeAuth.get('/getRecipes', userAuth , async(req,res)=>{
+
+    const data = await Recipe.find();
+    console.log(data);
+})
+
 
 module.exports = recipeAuth;

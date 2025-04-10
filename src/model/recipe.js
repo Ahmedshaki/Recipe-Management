@@ -63,7 +63,7 @@ const recipeSchema = mongoose.Schema(
     },
     tasteTag: {
       type: String,
-      enum: ["Spicy", "Sweet", "Savory", "Tangy", "Bitter"],
+      enum: ["Spicy", "Sweet", "Savory", "Tangy", "Bitter","Rich"],
     },
     createdBy : {
       type : mongoose.Schema.Types.ObjectId,
