@@ -71,23 +71,7 @@ const recipeValidation = (req) =>{
     if (!Array.isArray(ingredients) || ingredients.length === 0) {
         throw new Error("At least one ingredient is required.");
     } 
-    else{
-        ingredients.forEach((ing, index) => {
-            if (!ing.name || typeof ing.name !== "string") {
-                throw new Error(`Ingredient #${index + 1} must have a valid name.`);
-            }
-            if (
-                ing.quantity === undefined ||
-                isNaN(ing.quantity) ||
-                ing.quantity <= 0
-            ) {
-                throw new Error(`Ingredient #${index + 1} must have a valid quantity.`);
-            }
-            if (!ing.unit || typeof ing.unit !== "string") {
-                throw new Error(`Ingredient #${index + 1} must have a valid unit.`);
-            }
-        });
-    }
+    
 
     if (!Array.isArray(instructions) || instructions.length === 0) {
         throw new Error("At least one instruction step is required.");
@@ -100,13 +84,13 @@ const recipeValidation = (req) =>{
     const validTags  = ["Veg", "Non-Veg"];
 
     if(!tags || !validTags.includes(tags)){
-        throw new Error("Category is required and must be one of: " + validTags.join(", "));
+        throw new Error("Tag is required and must be one of: " + validTags.join(", "));
     }
 
     const validTasteTag =  ["Spicy", "Sweet", "Savory", "Tangy", "Bitter","Rich"];
 
     if(!tasteTag || !validTasteTag.includes(tasteTag)){
-        throw new Error("Category is required and must be one of: " + validTasteTag.join(", "));
+        throw new Error("Taste tag is required and must be one of: " + validTasteTag.join(", "));
     }
 }
 
