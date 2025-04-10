@@ -65,6 +65,11 @@ const recipeSchema = mongoose.Schema(
       type: String,
       enum: ["Spicy", "Sweet", "Savory", "Tangy", "Bitter"],
     },
+    createdBy : {
+      type : mongoose.Schema.Types.ObjectId,
+      ref : 'User',
+      required : true
+    }
   },
 
   {

@@ -111,13 +111,69 @@ Recipe-->
 }
 
 Validation for recipe fields:
+{
+  "title": "string",
+  "description": "string",
+  "category": "string",
+  "cuisine": "string",
+  "difficulty": "string",
+  "preparationTime": "number",
+  "cookingTime": "number",
+  "serving": "number",
+  "ingredients": [
+    {
+      "name": "string",
+      "quantity": "number",
+      "unit": "string"
+    }
+  ],
+  "instructions": [
+    {
+      "instruction": "string"
+    }
+  ],
+  "coverImage": "string (URL)",
+  "tags": "string",
+  "tasteTag": "string"
+}
+
+Field-wise Validation Rules
+
+title: required string, 3–100 characters.
+
+description: required string, 50–1000 characters.
+
+category: required string, one of Breakfast, Lunch, Dinner, Snack, Dessert.
+
+cuisine: required string, one of Indian, Chinese, Italian, American, Mexican, Japanese, Mediterranean, Thai, French, Korean.
+
+difficulty: required string, one of Easy, Medium, Hard.
+
+preparationTime: required integer, between 1 and 240 minutes.
+
+cookingTime: required integer, between 1 and 240 minutes.
+
+serving: required integer, between 1 and 20.
+
+ingredients: required array, must contain at least one object with:
+
+name: required string.
+
+quantity: required positive number.
+
+unit: required string.
+
+instructions: required array, must contain at least one object with:
+
+instruction: required string, minimum 50 characters.
+
+coverImage: required string, must be a valid image URL (jpg, jpeg, png, webp).
+
+tags: required string, one of Veg, Non-Veg.
+
+tasteTag: required string, one of Spicy, Sweet, Savory, Tangy, Bitter.
 
 
-About Cookie parser Pakage:-
-
-A "cookie parser" is a middleware in web development, particularly in Node.js and Express.js, 
-that parses the "Cookie" header from HTTP requests and makes the parsed cookie data accessible 
-in the request object, allowing developers to easily read and manage cookies. 
 
 
 

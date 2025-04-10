@@ -1,7 +1,8 @@
+```js
 findOne ---> gives the document which matches the query.
 <br/>
 
-```js
+
 const isPasswordValid = await bcrypt.compare(password, userDetailsFromDB.password);
 
 This line is using bcrypt (a password hashing library) to compare a plain-text password (entered by the user) with a hashed password (stored in the database).
@@ -16,7 +17,7 @@ const token = await jwt.sign(
 
 This line creates a JWT token for the authenticated user using their _id, a secret key, and an expiration time.
 
-```js
+
 res.cookie("token", token, { expires: new Date(Date.now() + 24 * 60 * 60 * 1000) });  (1 day)
 
 This line sets a cookie named "token" in the user's browser with the JWT token you created earlier.
@@ -36,3 +37,8 @@ Status Code	Name	When to Use
 500 Internal Server Error	Server Crash	Unexpected error occurred on the server
 503 Service Unavailable	Server Down	Server is temporarily overloaded or under maintenance
 
+About Cookie parser Pakage:-
+
+A "cookie parser" is a middleware in web development, particularly in Node.js and Express.js, 
+that parses the "Cookie" header from HTTP requests and makes the parsed cookie data accessible 
+in the request object, allowing developers to easily read and manage cookies. 
