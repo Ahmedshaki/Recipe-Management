@@ -6,6 +6,9 @@ const validator = require("validator");
 const {userDetailsValidation} = require('../utils/userValidation');
 const jwt = require("jsonwebtoken");
 const sendEmail = require("../utils/sendEmail");
+const {validateEmail, getDataByEmail} = require("../utils/emailValidationAndGetDataByEmail");
+const  {otpTemplate,otpVerifiedTemplate}  = require('../utils/emailTemplates');
+
 
 
 
@@ -90,18 +93,8 @@ userAuth.post('/logout',async (req,res)=>{
 userAuth.post('/forgotPassword', async(req,res)=>{
     try {
       const { email } = req.body;
-      if (!email) {
-        return res.status(404).send(`Enter an email`);
-      }
-
-      if (!validator.isEmail(email)) {
-        return res.status(404).send(`Enter a valid email`);
-      }
-
-      const validUser = await User.findOne({ email });
-      if (!validUser) {
-        return res.status(404).send(`User not found Please SignUp`);
-      }
+      validateEmail(email);
+      const validUser = await getDataByEmail(email);
 
       const otp = Math.floor(1000 + Math.random() * 9000).toString();
       const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
@@ -114,8 +107,8 @@ userAuth.post('/forgotPassword', async(req,res)=>{
 
       await sendEmail({
         to: validUser.email,
-        subject: `Your password reset OTP`,
-        text: `Your OTP is ${otp}.It will expire in 10 minutes`,
+        subject: '🔐 Reset Your Password - OTP Inside',
+        html: otpTemplate({ name: validUser.name, otp }),
       });
 
       res.status(200).json({
@@ -128,5 +121,36 @@ userAuth.post('/forgotPassword', async(req,res)=>{
     }
 })
 
+userAuth.post('/verifyOtp', async(req,res)=>{
+    try {
+      const { email, otp } = req.body;
+
+      validateEmail(email);
+      const validUser = await getDataByEmail(email);
+    
+
+      const otpFromDb = validUser.resetOTP;
+      const validExpiryTime = validUser.resetOTPExpires < Date.now();
+      const validOtp = otpFromDb === otp;
+
+      if (!validOtp) return res.status(400).json({ message: "Invalid OTP" });
+      if (validExpiryTime)
+        return res.status(400).json({ message: "OTP expired" });
+
+      validUser.isOtpVerified = true;
+      await validUser.save();
+    
+      await sendEmail({
+        to: validUser.email,
+        subject: '🎉 OTP Verified - Reset Password Now',
+        html: otpVerifiedTemplate({ name: validUser.name}),
+      });
+      res.status(200).json({ message: "OTP verified successfully" });
+    } catch (err) {
+      res.status(500).json({
+        message: `Error : ${err.message}`,
+      });
+    }
+})
 
 module.exports = userAuth;
