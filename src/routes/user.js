@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 const {userDetailsValidation} = require('../utils/userValidation');
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../utils/sendEmail");
+
 
 
 userAuth.post('/signup',async (req,res)=>{
@@ -85,6 +87,46 @@ userAuth.post('/logout',async (req,res)=>{
     }
 })
 
+userAuth.post('/forgotPassword', async(req,res)=>{
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(404).send(`Enter an email`);
+      }
+
+      if (!validator.isEmail(email)) {
+        return res.status(404).send(`Enter a valid email`);
+      }
+
+      const validUser = await User.findOne({ email });
+      if (!validUser) {
+        return res.status(404).send(`User not found Please SignUp`);
+      }
+
+      const otp = Math.floor(1000 + Math.random() * 9000).toString();
+      const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+      validUser.resetOTP = otp;
+      validUser.resetOTPExpires = otpExpires;
+      validUser.isOtpVerified = false;
+
+      await validUser.save();
+
+      await sendEmail({
+        to: validUser.email,
+        subject: `Your password reset OTP`,
+        text: `Your OTP is ${otp}.It will expire in 10 minutes`,
+      });
+
+      res.status(200).json({
+        message: "OTP sent to your email",
+      });
+    } catch (err) {
+        res.status(500).json({
+            message :  `Error : ${err.message}`
+        })
+    }
+})
 
 
 module.exports = userAuth;
