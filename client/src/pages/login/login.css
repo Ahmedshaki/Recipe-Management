@@ -1,0 +1,139 @@
+.full-page {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(to right, #af9c98, #feb47b);
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inner-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+}
+
+.image-container {
+    height: 90vh;
+    width: 45%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.image-of-login {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.login-container {
+    background-color: rgb(218, 215, 215);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: 70vh;
+    max-height: 74vh;
+    width: 35%;
+    padding: 1rem;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.login-message{
+    font-size: 1rem;
+    font-weight: 700;
+    color: #00008B;
+    text-align: center;
+
+}
+
+.login-container:hover {
+    transform: scale(1.05);
+    animation: pulseAnimation 0.5s ease-out infinite;
+}
+
+.login-fields {
+    margin-top: 1rem;
+}
+
+.input-group {
+    margin-top: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #ff7e5f;
+    box-shadow: 0 0 8px rgba(255, 126, 95, 0.3);
+    outline: none;
+}
+
+.forgot-pass {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.forgot-pass a {
+    font-size: 0.9rem;
+    color: blue;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.forgot-pass a:hover {
+    color: #0056b3;
+}
+
+.sign-in-btn {
+    width: 100%;
+    background: linear-gradient(to right, blue, #00008B);
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    font-weight:bold;
+    margin-top: 5%;
+}
+
+.sign-in-btn:hover {
+    background: radial-gradient(circle, white, blue); 
+    box-shadow: 0 4px 8px rgba(161, 129, 120, 0.2);
+    color: black;
+}
+
+.register {
+    margin-top: 20%;
+    color: #000;
+    text-align: center;
+}
+
+.register a{
+    font-size: 0.9rem;
+    color: blue;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
