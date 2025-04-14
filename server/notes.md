@@ -13,7 +13,7 @@ const token = await jwt.sign(
   "RECIPE@APP$9988",
   { expiresIn: '1h' }
 );
-
+```
 
 This line creates a JWT token for the authenticated user using their _id, a secret key, and an expiration time.
 
