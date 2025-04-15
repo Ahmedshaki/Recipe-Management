@@ -137,3 +137,11 @@
     transition: color 0.3s;
 }
 
+.error-message{
+    font-size: 0.85rem;
+    padding-left: 1.5%;
+    color: red;
+    font-weight: 500;
+    font-family:serif;
+}
+
