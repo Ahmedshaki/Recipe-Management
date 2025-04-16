@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import "./otp.css";
+import "./otpModule.css";
 
 let OTP_DIGIT_COUNT = 4;
 

@@ -1,17 +1,20 @@
 import "./verifyEmail.css";
 import forgotImage from "../../assets/forgotImage.avif";
+import { apiBaseUrl } from "../../config/apiBaseUrl";
 import { handelApiSubmit } from "../../services/apiService";
 import { validateEmail } from "../../validations/fields";
 import { OtpModule } from "../../components/otpComponent/OtpModule";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import { SetStateAction, useState } from "react";
 import { ToastContainer } from "react-toastify";
+import axios from "axios";
 
 export const VerifyEmail :React.FC = () => {
   const[email, setEmail] = useState<string>("");
   const[emailError, setEmailError] = useState<string>("");
   const[loading, setLoading] = useState<boolean>(false);
   const[showOtpModal, setShowOtpModal] = useState<boolean>(false);
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 
   const handelEmail = (e: { target: { value: SetStateAction<string>; }; }) =>{
     setEmail(e.target.value);
@@ -22,18 +25,23 @@ export const VerifyEmail :React.FC = () => {
   const handelVerifySubmit = async() =>{
      try{
       setLoading(true);
-      await handelApiSubmit(
+      const response = await handelApiSubmit(
         `${apiBaseUrl}/forgotPassword`,
         "POST",
         {email}
       );
       setEmail("");
+      showSuccessToast(response.data?.message);
       setTimeout(()=>{
         setShowOtpModal(true);
       },2000);
      }
      catch(error){
-      console.error("Error during form submission:", error);
+      if (axios.isAxiosError(error)) {
+        showErrorToast(error.response?.data?.message || "Something went wrong");
+      } else {
+        showErrorToast("An unexpected error occurred");
+      }
      }
      finally{
       setLoading(false);

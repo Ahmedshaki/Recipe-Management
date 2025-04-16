@@ -1,10 +1,14 @@
 import "./login.css";
 import loginCoverImg from "../../assets/loginCoverImg.png";
+import { apiBaseUrl } from "../../config/apiBaseUrl";
 import { handelApiSubmit } from "../../services/apiService";
 import { validateEmail, validatePassword } from "../../validations/fields";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import { SetStateAction, useState } from "react";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+
 
 
 export const Login :React.FC = () => {
@@ -12,12 +16,11 @@ export const Login :React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [emailError, setEmailError] = useState<string>("");
     const [passwordError, setPasswordError] = useState<string>("");
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
     const handelSubmitData = async (e: React.FocusEvent<HTMLFormElement>) => {
       e.preventDefault();
       try {
-        await handelApiSubmit(
+        const response = await handelApiSubmit(
           `${apiBaseUrl}/login`,
            "POST",
           {
@@ -25,9 +28,14 @@ export const Login :React.FC = () => {
             password: password,
           },
         );
-      } catch (error) {
-        console.error("Error during form submission:", error);
-      } finally {
+        showSuccessToast(response.data?.message);
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          showErrorToast(error.response?.data?.message || "Something went wrong");
+        } else {
+          showErrorToast("An unexpected error occurred");
+        }
+      }finally {
         setEmail("");
         setPassword("");
       }

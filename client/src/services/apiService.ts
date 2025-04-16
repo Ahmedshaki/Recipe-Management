@@ -1,6 +1,4 @@
 import axios from "axios";
-import { showSuccessToast,showErrorToast} from "../utils/toast";
-
 export const handelApiSubmit = async (
   url: string,
   method: "POST" | "GET" | "PUT" | "DELETE",
@@ -17,15 +15,11 @@ export const handelApiSubmit = async (
     });
 
     if (response.status === 200) {
-      showSuccessToast(response.data.message);
-      return response.data;
+      return response;
     }
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
-      showErrorToast(error?.response?.data?.message || "Something went wrong");
-    } else {
-      showErrorToast("An unexpected error occurred");
+      throw error;
     }
-    throw error;
   }
 };
