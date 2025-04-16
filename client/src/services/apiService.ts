@@ -22,7 +22,7 @@ export const handelApiSubmit = async (
     }
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
-      showErrorToast(error?.response?.data?.error || "Something went wrong");
+      showErrorToast(error?.response?.data?.message || "Something went wrong");
     } else {
       showErrorToast("An unexpected error occurred");
     }

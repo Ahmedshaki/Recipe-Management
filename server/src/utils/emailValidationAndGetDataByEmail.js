@@ -1,19 +1,19 @@
 const validator = require("validator");
 const User = require("../model/user");
-const validateEmail = (email) =>{
+const validateEmail = (email, res) =>{
     if (!email) {
-      return res.status(404).send(`Enter an email`);
+      throw new Error("Enter an email");
     }
 
     if (!validator.isEmail(email)) {
-      return res.status(404).send(`Enter a valid email`);
+      throw new Error("Enter a valid email");
     }
 }
 
-const getDataByEmail = async(email) =>{
+const getDataByEmail = async(email, res) =>{
   const validUser = await User.findOne({ email });
   if (!validUser) {
-    return res.status(404).send(`User not found Please SignUp`);
+    throw new Error("User not found Please SignUp");
   }
   return validUser;
 }

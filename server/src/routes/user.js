@@ -93,8 +93,8 @@ userAuth.post('/logout',async (req,res)=>{
 userAuth.post('/forgotPassword', async(req,res)=>{
     try {
       const { email } = req.body;
-      validateEmail(email);
-      const validUser = await getDataByEmail(email);
+      validateEmail(email, res);
+      const validUser = await getDataByEmail(email, res);
 
       const otp = Math.floor(1000 + Math.random() * 9000).toString();
       const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
@@ -116,7 +116,7 @@ userAuth.post('/forgotPassword', async(req,res)=>{
       });
     } catch (err) {
         res.status(500).json({
-            message :  `Error : ${err.message}`
+            message :  `${err.message}`
         })
     }
 })
@@ -125,8 +125,8 @@ userAuth.post('/verifyOtp', async(req,res)=>{
     try {
       const { email, otp } = req.body;
 
-      validateEmail(email);
-      const validUser = await getDataByEmail(email);
+      validateEmail(email, res);
+      const validUser = await getDataByEmail(email, res);
     
 
       const otpFromDb = validUser.resetOTP;
