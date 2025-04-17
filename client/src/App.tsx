@@ -1,11 +1,13 @@
 // import { Login } from "./pages/login/Login";
-import { VerifyEmail } from "./pages/verifyEmailPage/VerifyEmail";
+// import { VerifyEmail } from "./pages/verifyEmail/VerifyEmail";
+import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 
 function App() {
   return (
     <>
     {/* <Login/> */}
-    <VerifyEmail/>
+    {/* <VerifyEmail/> */}
+    <ResetPassword/>
     </>
   )
 }

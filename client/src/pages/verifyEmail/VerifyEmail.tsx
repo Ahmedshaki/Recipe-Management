@@ -1,6 +1,5 @@
 import "./verifyEmail.css";
 import forgotImage from "../../assets/forgotImage.avif";
-import { apiBaseUrl } from "../../config/apiBaseUrl";
 import { handelApiSubmit } from "../../services/apiService";
 import { validateEmail } from "../../validations/fields";
 import { OtpModule } from "../../components/otpComponent/OtpModule";
@@ -8,6 +7,8 @@ import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import { SetStateAction, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
+
+let validEmailFromResponse = "";
 
 export const VerifyEmail :React.FC = () => {
   const[email, setEmail] = useState<string>("");
@@ -26,11 +27,12 @@ export const VerifyEmail :React.FC = () => {
      try{
       setLoading(true);
       const response = await handelApiSubmit(
-        `${apiBaseUrl}/forgotPassword`,
+        `/forgotPassword`,
         "POST",
         {email}
       );
       setEmail("");
+      validEmailFromResponse = response.data?.data;
       showSuccessToast(response.data?.message);
       setTimeout(()=>{
         setShowOtpModal(true);
@@ -48,6 +50,11 @@ export const VerifyEmail :React.FC = () => {
      }
   }
 
+  const handelOtpSuccess = () =>{
+    setShowOtpModal(false);
+    console.log("navigate");
+  }
+
   return (
     <>
       {loading && (
@@ -57,7 +64,10 @@ export const VerifyEmail :React.FC = () => {
         </div>
       )}
       {showOtpModal && (
-        <OtpModule/>
+        <OtpModule
+          emailOfUser={validEmailFromResponse}
+          onSuccess={handelOtpSuccess}
+        />
       )}
       <div className="verify-page">
         <div className="left-page">

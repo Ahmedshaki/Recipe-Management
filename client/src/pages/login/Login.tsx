@@ -1,6 +1,5 @@
 import "./login.css";
 import loginCoverImg from "../../assets/loginCoverImg.png";
-import { apiBaseUrl } from "../../config/apiBaseUrl";
 import { handelApiSubmit } from "../../services/apiService";
 import { validateEmail, validatePassword } from "../../validations/fields";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
@@ -8,7 +7,6 @@ import { SetStateAction, useState } from "react";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
-
 
 
 export const Login :React.FC = () => {
@@ -21,7 +19,7 @@ export const Login :React.FC = () => {
       e.preventDefault();
       try {
         const response = await handelApiSubmit(
-          `${apiBaseUrl}/login`,
+          `/login`,
            "POST",
           {
             email: email,

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiBaseUrl } from "../config/apiBaseUrl";
 export const handelApiSubmit = async (
   url: string,
   method: "POST" | "GET" | "PUT" | "DELETE",
@@ -6,8 +7,9 @@ export const handelApiSubmit = async (
   headers?: object,
 ): Promise<any> => {
   try {
+    let urlWithEndPoint = `${apiBaseUrl}${url}`
     const response = await axios({
-      url,
+      url : urlWithEndPoint,
       method,
       data,
       headers,
