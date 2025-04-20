@@ -1,7 +1,7 @@
 import "./otpModule.css";
 import { handelApiSubmit } from "../../services/apiService";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
-import { otpModuleProps } from "../../types/OtpModule/otpModuleProps";
+import { otpModuleProps } from "../../types/otpModuleProps";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 

@@ -1,0 +1,96 @@
+.recipe-registration-container {
+  width: 98.5.6vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registration-inner-wrapper {
+  width: 70%;
+}
+
+.registration-inner-wrapper h1 {
+  margin-top: 1%;
+  text-align: center;
+}
+
+.recipe-form-box {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.form-group {
+  margin-top: 2%;
+}
+
+.full-width-field {
+  width: 100%;
+}
+
+
+.number-fields-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-of-ingredient{
+  margin-top: 3%;
+  margin-bottom: -2%;
+}
+.ingredient-fields-row {
+  display: flex;
+  margin-top: 2%;
+  justify-content: flex-start;
+  gap: 5%;
+}
+
+.full-width-unit{
+  width: 20%;
+}
+
+.full-width-name{
+  width: 30%;
+}
+
+.instruction-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.full-width-instruction{
+  width: 50vw;
+}
+
+.btn-to-add-instruction{
+  width: 16vb;
+  height: 9vh;
+  margin-top: 1%;
+  margin-left: 9%;
+}
+
+.btn-for-ingredient{
+  width: 14vb;
+}
+
+.button-container{
+  border: red solid 1px;
+  height: 10vh;
+  position: relative;
+  left: 49%;
+  transform: translateX(-50%);
+  width: 20vb;
+  margin-top: 3%;
+}
+
+.btn-for-submit{
+  height: 10vh;
+  width: 20vb;
+  text-align: center;
+}
+
+.footer-container {
+  height: 20vh;
+}
+    

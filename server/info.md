@@ -114,9 +114,20 @@ Validation for recipe fields:
 {
   "title": "string",
   "description": "string",
-  "category": "string",
-  "cuisine": "string",
-  "difficulty": "string",
+  "category": "string", //["Breakfast", "Lunch", "Dinner", "Snack", "Dessert"]
+  "cuisine": "string", /*enums: [
+        "Indian",
+        "Chinese",
+        "Italian",
+        "American",
+        "Mexican",
+        "Japanese",
+        "Mediterranean",
+        "Thai",
+        "French",
+        "Korean",
+      ]*/
+  "difficulty": "string",  //["Easy", "Medium", "Hard"]
   "preparationTime": "number",
   "cookingTime": "number",
   "serving": "number",
