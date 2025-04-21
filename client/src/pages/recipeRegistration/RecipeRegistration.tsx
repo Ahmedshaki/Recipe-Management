@@ -9,6 +9,7 @@ import {
 } from "../../constants/formOptionOfRecipe";
 import { Ingredient } from "../../types/recipeFileds";
 import { Instruction } from "../../types/recipeFileds";
+import { ImageUploader } from "../../components/imageUploader/ImageUploader";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -24,6 +25,19 @@ export const RecipeRegistration: React.FC = () => {
   const [instructionOfRecipe, setInstructionOfRecipe] = useState({
     stepNumber: 0,
     instruction: "",
+  });
+
+  const [recipeFields, setRecipeFields] = useState({
+    title: "",
+    description: "",
+    category: "",
+    cuisine: "",
+    difficulty: "",
+    preparationTime: "",
+    cookingTime: "",
+    serving: "",
+    tags: "",
+    tasteTag: ""
   });
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [instructionList, setInstructionList] = useState<Instruction[]>([]);
@@ -54,12 +68,12 @@ export const RecipeRegistration: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
     setInstructionOfRecipe((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+  console.log(recipeFields);
 
   const handleAddInstruction = () => {
     const newStepNumber = instructionList.length + 1;
@@ -73,6 +87,16 @@ export const RecipeRegistration: React.FC = () => {
 
     setInstructionOfRecipe({ stepNumber: newStepNumber + 1, instruction: "" });
   };
+
+  const handelRecipeFieldsChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const {name, value} = e.target;
+    setRecipeFields((prev)=>({
+      ...prev,
+      [name] : value
+    }))
+  }
 
   return (
     <>
@@ -89,25 +113,29 @@ export const RecipeRegistration: React.FC = () => {
               <div className="form-group">
                 <TextField
                   id="recipe-title"
-                  name="recipeTitle"
+                  name="title"
                   label="Title"
                   type="text"
                   autoComplete="recipe-title"
                   variant="standard"
                   className="full-width-field"
+                  value={recipeFields.title}
+                  onChange={handelRecipeFieldsChange}
                 />
               </div>
 
               <div className="form-group">
                 <TextField
                   id="recipe-description"
-                  name="recipeDescription"
+                  name="description"
                   label="Description"
                   multiline
                   maxRows={4}
                   autoComplete="recipe-description"
                   variant="standard"
                   className="full-width-field"
+                  value={recipeFields.description}
+                  onChange={handelRecipeFieldsChange}
                 />
               </div>
 
@@ -121,6 +149,8 @@ export const RecipeRegistration: React.FC = () => {
                   helperText="Please select a category"
                   variant="standard"
                   className="full-width-field"
+                  value={recipeFields.category}
+                  onChange={handelRecipeFieldsChange}
                 >
                   {recipeCategories.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -140,6 +170,8 @@ export const RecipeRegistration: React.FC = () => {
                   helperText="Please select a cuisine"
                   variant="standard"
                   className="full-width-field"
+                  value={recipeFields.cuisine}
+                  onChange={handelRecipeFieldsChange}
                 >
                   {cuisineOptions.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -159,6 +191,8 @@ export const RecipeRegistration: React.FC = () => {
                   helperText="Please select a difficulty level"
                   variant="standard"
                   className="full-width-field"
+                  value={recipeFields.difficulty}
+                  onChange={handelRecipeFieldsChange}
                 >
                   {difficultyOptions.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -172,7 +206,7 @@ export const RecipeRegistration: React.FC = () => {
                 <div className="form-group">
                   <TextField
                     id="prep-time"
-                    name="prepTime"
+                    name="preparationTime"
                     label="Preparation Time (mins)"
                     type="number"
                     variant="standard"
@@ -181,12 +215,14 @@ export const RecipeRegistration: React.FC = () => {
                         shrink: true,
                       },
                     }}
+                    value={recipeFields.preparationTime}
+                    onChange={handelRecipeFieldsChange}
                   />
                 </div>
                 <div className="form-group">
                   <TextField
                     id="cook-time"
-                    name="cookTime"
+                    name="cookingTime"
                     label="Cooking Time (mins)"
                     type="number"
                     variant="standard"
@@ -195,12 +231,14 @@ export const RecipeRegistration: React.FC = () => {
                         shrink: true,
                       },
                     }}
+                    value={recipeFields.cookingTime}
+                    onChange={handelRecipeFieldsChange}
                   />
                 </div>
                 <div className="form-group">
                   <TextField
                     id="servings"
-                    name="servings"
+                    name="serving"
                     label="Servings"
                     type="number"
                     variant="standard"
@@ -209,6 +247,8 @@ export const RecipeRegistration: React.FC = () => {
                         shrink: true,
                       },
                     }}
+                    value={recipeFields.serving}
+                    onChange={handelRecipeFieldsChange}
                   />
                 </div>
               </div>
@@ -262,16 +302,12 @@ export const RecipeRegistration: React.FC = () => {
                   ADD
                 </button>
               </div>
-              <div>
-                {ingredientList.map((element, index) => {
-                  return (
-                    <div key={index}>
-                      <p>
-                        {element.name} {element.quantity} {element.unit}
-                      </p>
-                    </div>
-                  );
-                })}
+              <div className="list-display-wrapper">
+                {ingredientList.map((element, index) => (
+                  <div key={index} className="item-card">
+                    {element.name} - {element.quantity} {element.unit}
+                  </div>
+                ))}
               </div>
 
               <div className="header-of-ingredient">
@@ -300,28 +336,33 @@ export const RecipeRegistration: React.FC = () => {
                 </button>
               </div>
 
-              <div>
+              <div className="list-display-wrapper">
                 {instructionList.map((element) => (
-                  <p key={element.stepNumber}>
-                    {element.stepNumber}. {element.instruction}
-                  </p>
+                  <div key={element.stepNumber} className="item-card">
+                    Step {element.stepNumber}: {element.instruction}
+                  </div>
                 ))}
               </div>
 
               <div className="form-group">
-                <p>TODO: Add UI for Image Upload</p>
+                <p>Please Upload an Image</p>
+                <div className="image-container-of-recipe">
+                  <ImageUploader />
+                </div>
               </div>
 
               <div className="form-group">
                 <TextField
                   id="recipe-type"
-                  name="recipeType"
+                  name="tags"
                   select
                   label="Select Recipe Type"
                   defaultValue=""
                   helperText="Please select a recipe type"
                   variant="standard"
                   className="full-width-field"
+                  value={recipeFields.tags}
+                  onChange={handelRecipeFieldsChange}
                 >
                   {recipeTypeOptions.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -334,13 +375,15 @@ export const RecipeRegistration: React.FC = () => {
               <div className="form-group">
                 <TextField
                   id="flavor-profile"
-                  name="flavorProfile"
+                  name="tasteTag"
                   select
                   label="Select Flavor Profile"
                   defaultValue=""
                   helperText="Please select a flavor profile"
                   variant="standard"
                   className="full-width-field"
+                  value={recipeFields.tasteTag}
+                  onChange={handelRecipeFieldsChange}
                 >
                   {flavorProfileOptions.map((option) => (
                     <MenuItem key={option.value} value={option.value}>

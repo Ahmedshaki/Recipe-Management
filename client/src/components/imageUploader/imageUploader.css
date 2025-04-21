@@ -1,0 +1,12 @@
+
+.file-entered-by-user {
+    margin-bottom: 10px;
+}
+
+.image-preview {
+    max-width: 100%;
+    height: 12vh;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 2px;
+}

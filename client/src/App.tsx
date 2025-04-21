@@ -2,6 +2,7 @@
 // import { VerifyEmail } from "./pages/verifyEmail/VerifyEmail";
 // import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 import { RecipeRegistration } from "./pages/recipeRegistration/RecipeRegistration";
+// import { ImageUploader } from "./components/imageUploader/ImageUploader";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
     {/* <VerifyEmail/> */}
     {/* <ResetPassword/> */}
     <RecipeRegistration/>
+    {/* <ImageUploader/> */}
     </>
   )
 }
