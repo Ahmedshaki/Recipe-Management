@@ -22,7 +22,7 @@ const recipeValidation = (req) =>{
         throw new Error("Title is required and should be 3-100 characters long.");
     }
 
-    if(!description || !validator.isLength(description,{min:50 , max : 1000})){
+    if(!description || !validator.isLength(description,{min:10 , max : 1000})){
         throw new Error("Description is required and should be 10-1000 characters.");
     }
 

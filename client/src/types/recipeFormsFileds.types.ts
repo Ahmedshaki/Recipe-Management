@@ -40,3 +40,16 @@ export type Instruction = {
   stepNumber: number,
   instruction: string
 }
+
+export interface RecipeFields {
+  title: string;
+  description: string;
+  category: string;
+  cuisine: string;
+  difficulty: string;
+  preparationTime: number;
+  cookingTime: number;
+  serving: number;
+  tags: string;
+  tasteTag: string;
+}

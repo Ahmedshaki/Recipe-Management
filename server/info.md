@@ -111,11 +111,8 @@ Recipe-->
 }
 
 Validation for recipe fields:
-{
-  "title": "string",
-  "description": "string",
-  "category": "string", //["Breakfast", "Lunch", "Dinner", "Snack", "Dessert"]
-  "cuisine": "string", /*enums: [
+//["Breakfast", "Lunch", "Dinner", "Snack", "Dessert"]
+/*enums: [
         "Indian",
         "Chinese",
         "Italian",
@@ -127,7 +124,13 @@ Validation for recipe fields:
         "French",
         "Korean",
       ]*/
-  "difficulty": "string",  //["Easy", "Medium", "Hard"]
+ //["Easy", "Medium", "Hard"]
+{
+  "title": "string",
+  "description": "string",
+  "category": "string", 
+  "cuisine": "string", 
+  "difficulty": "string", 
   "preparationTime": "number",
   "cookingTime": "number",
   "serving": "number",

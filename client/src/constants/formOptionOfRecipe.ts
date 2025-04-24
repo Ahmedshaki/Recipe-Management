@@ -1,4 +1,4 @@
-import { Option } from "../types/recipeFileds";
+import { Option } from "../types/recipeFormsFileds.types";
 
 export const recipeCategories: Option[] = [
   { value: "Breakfast", label: "Breakfast" },

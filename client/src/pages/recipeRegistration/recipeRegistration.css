@@ -171,3 +171,7 @@
   background-color: #f0f0f0;
 }
 
+.error-line{
+  color: red;
+  font-size: small;
+}

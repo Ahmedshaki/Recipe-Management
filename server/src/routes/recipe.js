@@ -3,7 +3,6 @@ const recipeAuth = express.Router();
 const Recipe = require("../model/recipe");
 const {userAuth} = require("../middlewares/userAuth");
 const {recipeValidation} = require("../utils/recipeValidation");
-const uploadImageToCloudinary = require("../utils/uploadImage");
 const mongoose = require("mongoose");
 
 recipeAuth.post('/registerRecipe', userAuth , async(req,res)=>{
@@ -27,7 +26,6 @@ recipeAuth.post('/registerRecipe', userAuth , async(req,res)=>{
             tasteTag
         } = req.body;
 
-        const uploadedImageUrl = await uploadImageToCloudinary(coverImage);
         const recipeFromUser = new Recipe({
             title,
             description,
@@ -39,7 +37,7 @@ recipeAuth.post('/registerRecipe', userAuth , async(req,res)=>{
             serving,
             ingredients,
             instructions,
-            coverImage : uploadedImageUrl,
+            coverImage,
             tags,
             tasteTag,
             createdBy : validUser._id

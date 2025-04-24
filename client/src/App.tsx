@@ -1,4 +1,4 @@
-// import { Login } from "./pages/login/Login";
+import { Login } from "./pages/login/Login";
 // import { VerifyEmail } from "./pages/verifyEmail/VerifyEmail";
 // import { ResetPassword } from "./pages/resetPassword/ResetPassword";
 import { RecipeRegistration } from "./pages/recipeRegistration/RecipeRegistration";
@@ -7,7 +7,7 @@ import { RecipeRegistration } from "./pages/recipeRegistration/RecipeRegistratio
 function App() {
   return (
     <>
-    {/* <Login/> */}
+    <Login/>
     {/* <VerifyEmail/> */}
     {/* <ResetPassword/> */}
     <RecipeRegistration/>
