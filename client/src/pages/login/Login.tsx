@@ -1,7 +1,7 @@
 import "./login.css";
 import loginCoverImg from "../../assets/loginCoverImg.png";
 import { handelApiSubmit } from "../../services/apiService";
-import { validateEmail, validatePassword } from "../../validations/fields";
+import { validateEmail, validatePassword } from "../../validations/userFieldsValidation";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import { SetStateAction, useState } from "react";
 import { ToastContainer} from 'react-toastify';

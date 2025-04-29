@@ -1,7 +1,7 @@
 import "./verifyEmail.css";
 import forgotImage from "../../assets/forgotImage.avif";
 import { handelApiSubmit } from "../../services/apiService";
-import { validateEmail } from "../../validations/fields";
+import { validateEmail } from "../../validations/userFieldsValidation";
 import { OtpModule } from "../../components/otpComponent/OtpModule";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import { SetStateAction, useState } from "react";

@@ -12,21 +12,30 @@ import { Instruction } from "../../types/recipeFormsFileds.types";
 import { ImageUploader } from "../../components/imageUploader/ImageUploader";
 import { createFormDataFromState } from "../../features/recipeForm/recipeFormHelper";
 import { handelApiSubmit } from "../../services/apiService";
-import { validateCategory, validateCookingTime, validateCuisine, validateDescription, validateDifficulty, validatePreparationTime, validateServings, validateTitle } from "../../validations/recipeFieldsValidation";
-
+import { uploadToCloudinary } from "../../utils/cloudinaryUtils";
+import { showErrorToast, showSuccessToast } from "../../utils/toast";
+import {
+  validateCategory,
+  validateCookingTime,
+  validateCuisine,
+  validateDescription,
+  validateDifficulty,
+  validateImage,
+  validateIngredientList,
+  validateInstructionList,
+  validatePreparationTime,
+  validateServings,
+  validateTag,
+  validateTasteTag,
+  validateTitle,
+} from "../../validations/recipeFieldsValidation";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
-import { uploadToCloudinary } from "../../utils/cloudinaryUtils";
-import { showErrorToast, showSuccessToast } from "../../utils/toast";
 import axios from "axios";
 
-
-
-
 export const RecipeRegistration: React.FC = () => {
-
   const [ingredientDetails, setIngredientDetail] = useState({
     name: "",
     quantity: "",
@@ -47,22 +56,27 @@ export const RecipeRegistration: React.FC = () => {
     cookingTime: "",
     serving: "",
     tags: "",
-    tasteTag: ""
+    tasteTag: "",
   });
 
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [instructionList, setInstructionList] = useState<Instruction[]>([]);
-  const [selectedImage, setSelectedImage] = useState<File|null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const [touched, settouched] = useState(true);
   const [titleError, setTitleError] = useState<string>("");
   const [descriptionError, setDescriptionError] = useState<string>("");
   const [categoryError, setCategoryError] = useState<string>("");
-  const [cuisineError , setCuisineError] = useState<string>("");
-  const [difficultyError , setDifficultyError] = useState<string>("");
+  const [cuisineError, setCuisineError] = useState<string>("");
+  const [difficultyError, setDifficultyError] = useState<string>("");
   const [preparationTimeError, setPreparationTimeError] = useState<string>("");
   const [cookingTimeError, setCookingTimeError] = useState<string>("");
   const [servingError, setServingError] = useState<string>("");
+  const [ingredientListError, setIngredientListError] = useState<string>("");
+  const [instructionListError, setInstructionListError] = useState<string>("");
+  const [imageError, setImageError] = useState<string>("");
+  const [tagError, setTagError] = useState<string>("");
+  const [tasteError, setTasteError] = useState<string>("");
 
   const handleIngredientChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -84,6 +98,11 @@ export const RecipeRegistration: React.FC = () => {
     };
     let newArray = [...ingredientList, newObject];
     setIngredientList(newArray);
+    if (newArray.length === 0) {
+      setIngredientListError(validateIngredientList(newArray));
+    } else {
+      setIngredientListError("");
+    }
   };
 
   const handleInstructionChange = (
@@ -105,42 +124,54 @@ export const RecipeRegistration: React.FC = () => {
     };
 
     setInstructionList((prev) => [...prev, newInstruction]);
-
+    let newArray = [...instructionList, newInstruction];
+    if (newArray.length === 0) {
+      setInstructionListError(validateInstructionList(newArray));
+    } else {
+      setInstructionListError("");
+    }
     setInstructionOfRecipe({ stepNumber: newStepNumber + 1, instruction: "" });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     settouched(true);
     setTitleError(validateTitle(recipeFields.title));
     setDescriptionError(validateDescription(recipeFields.description));
     setCategoryError(validateCategory(recipeFields.category));
     setCuisineError(validateCuisine(recipeFields.cuisine));
     setDifficultyError(validateDifficulty(recipeFields.difficulty));
-    setPreparationTimeError(validatePreparationTime(recipeFields.preparationTime));
+    setPreparationTimeError(
+      validatePreparationTime(recipeFields.preparationTime)
+    );
     setCookingTimeError(validateCookingTime(recipeFields.cookingTime));
     setServingError(validateServings(recipeFields.serving));
-  },[]);
+    setIngredientListError(validateIngredientList(ingredientList));
+    setInstructionListError(validateInstructionList(ingredientList));
+    setTagError(validateTag(recipeFields.tags));
+    setTasteError(validateTasteTag(recipeFields.tasteTag));
+    setImageError(validateImage(selectedImage));
+  }, []);
 
   const handelRecipeFieldsChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     e.preventDefault();
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     console.log(value);
-    setRecipeFields((prev)=>({
+    setRecipeFields((prev) => ({
       ...prev,
-      [name] : value
-    }))
+      [name]: value,
+    }));
     if (name === "title") {
       setTitleError(validateTitle(value));
     }
 
-    if(name === "description"){
+    if (name === "description") {
       setDescriptionError(validateDescription(value));
     }
 
-    if(name === "category"){
-      setCategoryError(validateCategory(value))
+    if (name === "category") {
+      setCategoryError(validateCategory(value));
     }
 
     if (name === "cuisine") {
@@ -158,16 +189,25 @@ export const RecipeRegistration: React.FC = () => {
       setCookingTimeError(validateCookingTime(value));
     }
 
-    if(name === "serving"){
+    if (name === "serving") {
       setServingError(validateServings(value));
     }
-  }
+
+    if (name === "tags") {
+      setTagError(validateTag(value));
+    }
+
+    if (name === "tasteTag") {
+      setTasteError(validateTasteTag(value));
+    }
+  };
 
   const handleImageChange = (file: File | null) => {
     setSelectedImage(file);
+    setImageError(validateImage(file));
   };
 
-  const handelSumitData = async() =>{
+  const handelSumitData = async () => {
     try {
       let imageUrl = "";
       if (selectedImage) {
@@ -191,7 +231,7 @@ export const RecipeRegistration: React.FC = () => {
       );
       showSuccessToast(response?.data?.message);
       setRecipeFields({
-        title:"",
+        title: "",
         description: "",
         category: "",
         cuisine: "",
@@ -206,11 +246,11 @@ export const RecipeRegistration: React.FC = () => {
         name: "",
         quantity: "",
         unit: "",
-      })
+      });
       setInstructionOfRecipe({
         stepNumber: 0,
-        instruction: ""
-      })
+        instruction: "",
+      });
       setIngredientList([]);
       setInstructionList([]);
       setSelectedImage(null);
@@ -219,7 +259,7 @@ export const RecipeRegistration: React.FC = () => {
         showErrorToast(error?.response?.data?.message);
       }
     }
-  }
+  };
 
   return (
     <>
@@ -244,9 +284,7 @@ export const RecipeRegistration: React.FC = () => {
                   value={recipeFields.title}
                   onChange={handelRecipeFieldsChange}
                   error={touched && titleError !== ""}
-                  helperText={
-                    touched && titleError !== "" ? titleError : " "
-                  }
+                  helperText={touched && titleError !== "" ? titleError : " "}
                 />
               </div>
 
@@ -354,9 +392,11 @@ export const RecipeRegistration: React.FC = () => {
                     value={recipeFields.preparationTime}
                     onChange={handelRecipeFieldsChange}
                     error={touched && preparationTimeError !== ""}
-                  helperText={
-                    touched && preparationTimeError !== "" ? preparationTimeError : " "
-                  }
+                    helperText={
+                      touched && preparationTimeError !== ""
+                        ? preparationTimeError
+                        : " "
+                    }
                   />
                 </div>
                 <div className="form-group">
@@ -374,7 +414,9 @@ export const RecipeRegistration: React.FC = () => {
                     onChange={handelRecipeFieldsChange}
                     error={touched && cookingTimeError !== ""}
                     helperText={
-                      touched && cookingTimeError !== "" ? cookingTimeError : " "
+                      touched && cookingTimeError !== ""
+                        ? cookingTimeError
+                        : " "
                     }
                   />
                 </div>
@@ -401,6 +443,13 @@ export const RecipeRegistration: React.FC = () => {
 
               <div className="header-of-ingredient">
                 <p>Enter the Ingredient Details</p>
+                {ingredientListError !== "" ? (
+                  <p style={{ color: "red", fontSize: "small" }}>
+                    {ingredientListError}
+                  </p>
+                ) : (
+                  ""
+                )}
               </div>
 
               <div className="ingredient-fields-row">
@@ -458,6 +507,13 @@ export const RecipeRegistration: React.FC = () => {
 
               <div className="header-of-ingredient">
                 <p>Enter Instruction step by step</p>
+                {instructionListError !== "" ? (
+                  <p style={{ color: "red", fontSize: "small" }}>
+                    {instructionListError}
+                  </p>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="instruction-container">
                 <div className="form-group">
@@ -492,6 +548,7 @@ export const RecipeRegistration: React.FC = () => {
 
               <div className="form-group">
                 <p>Please Upload an Image</p>
+                {imageError !==""?<p style={{color: "red", fontSize: "small"}}>{imageError}</p>:""}
                 <div className="image-container-of-recipe">
                   <ImageUploader onImageChange={handleImageChange} />
                 </div>
@@ -504,11 +561,12 @@ export const RecipeRegistration: React.FC = () => {
                   select
                   label="Select Recipe Type"
                   defaultValue=""
-                  helperText="Please select a recipe type"
                   variant="standard"
                   className="full-width-field"
                   value={recipeFields.tags}
                   onChange={handelRecipeFieldsChange}
+                  error={touched && tagError !== ""}
+                  helperText={touched && tagError !== "" ? tagError : " "}
                 >
                   {recipeTypeOptions.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -525,11 +583,12 @@ export const RecipeRegistration: React.FC = () => {
                   select
                   label="Select Flavor Profile"
                   defaultValue=""
-                  helperText="Please select a flavor profile"
                   variant="standard"
                   className="full-width-field"
                   value={recipeFields.tasteTag}
                   onChange={handelRecipeFieldsChange}
+                  error={touched && tasteError !== ""}
+                  helperText={touched && tasteError !== "" ? tasteError : " "}
                 >
                   {flavorProfileOptions.map((option) => (
                     <MenuItem key={option.value} value={option.value}>

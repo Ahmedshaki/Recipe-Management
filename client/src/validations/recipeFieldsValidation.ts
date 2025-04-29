@@ -82,3 +82,54 @@ export const validateServings = (servings: string): string => {
 
   return "";
 };
+
+export const validateIngredientList = (record:any):string =>{
+  if(record.length === 0){
+    return "Add atleast one Ingredient"
+  }
+  return "";
+}
+
+export const validateInstructionList = (record:any):string =>{
+  if(record.length === 0){
+    return "Add atleast one Instruction"
+  }
+  return "";
+}
+
+export const validateImage = (imageFile: File | null): string => {
+  if (!imageFile) {
+    return "Recipe image is required.";
+  }
+
+  const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+  if (!validTypes.includes(imageFile.type)) {
+    return "Only JPG, JPEG, or PNG images are allowed.";
+  }
+
+  const maxSizeInMB = 2;
+  const sizeInMB = imageFile.size / (1024 * 1024);
+
+  if (sizeInMB > maxSizeInMB) {
+    return "Image must be smaller than 2MB.";
+  }
+
+  return "";
+};
+
+
+export const validateTag = (tag: string): string => {
+  if (!tag) {
+    return "Image level is required";
+  }
+  return "";
+};
+
+export const validateTasteTag = (tasteTag: string): string => {
+  if (!tasteTag.trim()) {
+    return "Taste is required";
+  }
+  return "";
+};
+
